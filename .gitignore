@@ -1,26 +1,72 @@
-*.log
-.DS_Store
+# Arquivos de ambiente
 .env
 .env.backup
 .env.production
-.phpactor.json
+*.local
+*.local.php
+*.local.yml
+*.local.yaml
+
+# Arquivos de cache e logs
+*.log
+*.log.*
+*.cache
+logs/
+cache/
+npm-debug.log
+yarn-error.log
 .phpunit.result.cache
+
+# Arquivos de IDE e editores
 /.fleet
 /.idea
 /.nova
-/.phpunit.cache
 /.vscode
 /.zed
-/auth.json
+.project
+.settings/
+.classpath
+*.sublime-workspace
+*.sublime-project
+.phpactor.json
+
+# Arquivos de sistema
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Dependências e builds
 /node_modules
+/vendor
 /public/build
 /public/hot
 /public/storage
 /storage/*.key
 /storage/pail
-/vendor
+composer.lock
+package-lock.json
+yarn.lock
+
+# Arquivos de configuração
 Homestead.json
 Homestead.yaml
-npm-debug.log
-Thumbs.db
-yarn-error.log
+auth.json
+
+# Arquivos de ambiente Docker
+docker-compose.override.yml
+docker-compose.*.yml
+!docker-compose.yml
+
+# Arquivos de backup
+*.bak
+*.backup
+*~
+
+# Arquivos de configuração sensíveis
+config/*.local.php
+config/*.local.yml
+config/*.local.yaml
+
+# Arquivos de debug
+phpunit.xml
+phpunit.xml.dist

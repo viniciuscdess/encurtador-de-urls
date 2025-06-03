@@ -1,0 +1,54 @@
+services:
+  application:
+    build:
+      context: .
+      dockerfile: dockerfiles/php/Dockerfile
+    image: application
+    container_name: application-encurtador
+    tty: true
+    ports:
+      - "9000:9000"
+    volumes:
+      - .:/var/www
+    networks:
+      - laravel_app
+
+  nginx:
+    image: nginx:alpine
+    container_name: nginx-encurtador
+    ports:
+      - "80:80"
+    volumes:
+      - .:/var/www
+      - ./dockerfiles/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - laravel_app
+
+  mysql:
+    image: mysql:8.0
+    container_name: mysql-encurtador
+    restart: unless-stopped
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ALLOW_EMPTY_PASSWORD: "no"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - laravel_app
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${DB_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+networks:
+  laravel_app:
+    driver: bridge
+
+volumes:
+  mysql_data:
