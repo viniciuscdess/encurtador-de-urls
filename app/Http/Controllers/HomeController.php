@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Url;
 use App\Models\UrlSimplified;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Str;
 class HomeController extends Controller
 {
     public function index()
@@ -22,5 +21,17 @@ class HomeController extends Controller
         }
 
         return redirect($url->url);
+    }
+
+    public function encurtar(Request $request)
+    {
+        $url = $request->input('url');
+
+        $url = UrlSimplified::create([
+            'url' => $url,
+            'url_modify' => Str::random(6),
+        ]);
+
+        return redirect()->route('home.index');
     }
 }
