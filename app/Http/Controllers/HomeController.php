@@ -26,12 +26,23 @@ class HomeController extends Controller
     public function encurtar(Request $request)
     {
         $url = $request->input('url');
+        
+        $url_modify = $this->gerarUrl();
 
         $url = UrlSimplified::create([
             'url' => $url,
-            'url_modify' => Str::random(6),
+            'url_modify' => $url_modify,
         ]);
 
-        return redirect()->route('home.index');
+        return redirect()->route('home.index')->with('url_modify', $url_modify);
+    }
+
+    public function gerarUrl()
+    {
+        do {
+            $url_modify = Str::random(6);
+        } while (UrlSimplified::where('url_modify', $url_modify)->exists());
+
+        return $url_modify;
     }
 }
