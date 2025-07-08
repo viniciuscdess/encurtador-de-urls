@@ -1,11 +1,26 @@
-<h1>home</h1>
+@extends('layouts.app')
 
-@if(session('url_modify'))  
-    <p>URL encurtada: {{ session('url_modify') }}</p>
-@endif
+@section('content')
+<div class="d-flex justify-content-center align-items-center" style="min-height: 70vh;">
+    <div class="w-100" style="max-width: 400px;">
+        <div class="text-center mb-4">
+            <h1 class="fw-bold">Encurtador de URL</h1>
+            <p class="text-muted">Cole sua URL abaixo para encurtar rapidamente</p>
+        </div>
 
-<form action="{{ route('home.encurtar') }}" method="post">
-    @csrf
-    <input type="text" name="url" placeholder="URL">
-    <button type="submit">Encurtar</button>
-</form>
+        @if(session('url_modify'))  
+            <div class="alert alert-success text-center">
+                URL encurtada: <a href="{{ session('url_modify') }}" target="_blank">{{ session('url_modify') }}</a>
+            </div>
+        @endif
+
+        <form action="{{ route('home.encurtar') }}" method="post" class="card p-4 shadow-sm border-0">
+            @csrf
+            <div class="mb-3">
+                <input type="text" name="url" class="form-control form-control-lg" placeholder="Cole a URL aqui" required>
+            </div>
+            <button type="submit" class="btn btn-primary w-100 btn-lg">Encurtar</button>
+        </form>
+    </div>
+</div>
+@endsection
