@@ -32,13 +32,9 @@ class HomeController extends Controller
                 $url = Url::create([
                     'url_original' => $data['url_original'],
                     'url_modify'   => $shortHash,
-                ]);
+                ]); 
 
-                return view('home.index')->with('success', [
-                                            'url_modify'   => $shortHash,
-                                            'url_original' => $data['url_original'],
-                                        ]);
-
+                return redirect()->route('home.index')->with('success', 'URL encurtada com sucesso!')->with('url_modify', $shortHash);
             } catch (QueryException $e) {
                 if ($e->getCode() !== '23000' || ! str_contains($e->getMessage(), '1062')) {
                     throw $e;
@@ -58,14 +54,14 @@ class HomeController extends Controller
 
     public function redirect(string $param)
     {
-        if (strlen($param) < 7) return redirect('home.index');
+        if (strlen($param) < 7) return redirect()->route('home.index');
             
         $url = Url::where('url_modify', $param)->first(); 
 
-        if (!$url) return redirect('home.index');
+        if (!$url) return redirect()->route('home.index');
 
         $url->increment('redirects');
         
-        return redirect($url->url_original);
+        return redirect()->away($url->url_original);
     }
 }
