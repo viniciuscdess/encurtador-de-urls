@@ -55,4 +55,17 @@ class HomeController extends Controller
     {
         return Str::random(7);
     }
+
+    public function redirect(string $param)
+    {
+        if (strlen($param) < 7) return redirect('home.index');
+            
+        $url = Url::where('url_modify', $param)->first(); 
+
+        if (!$url) return redirect('home.index');
+
+        $url->increment('redirects');
+        
+        return redirect($url->url_original);
+    }
 }
