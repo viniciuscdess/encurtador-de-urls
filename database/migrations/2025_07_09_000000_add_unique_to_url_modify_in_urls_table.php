@@ -11,12 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('urls', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->string('url');
-            $table->string('url_modify');
-            $table->timestamps();
+        Schema::table('urls', function (Blueprint $table) {
+            $table->unique('url_modify');
         });
     }
 
@@ -25,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('url');
+        Schema::table('urls', function (Blueprint $table) {
+            $table->dropUnique(['url_modify']);
+        });
     }
-};
+}; 

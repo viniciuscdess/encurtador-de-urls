@@ -11,10 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('urls_simplified', function (Blueprint $table) {
+        Schema::create('urls', function (Blueprint $table) {
             $table->id();
-            $table->string('url')->unique();
-            $table->string('url_modify');
+            $table->longText('url_original');
+            $table->string('url_modify', 255)->unique();
+            $table->integer('redirects', false, true)->length(12)->default(0);
             $table->timestamps();
         });
     }
@@ -24,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('urls_simplified');
+        Schema::dropIfExists('urls');
     }
 };
