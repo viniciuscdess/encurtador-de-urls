@@ -64,4 +64,11 @@ class HomeController extends Controller
         
         return redirect()->away($url->url_original);
     }
+
+    public function clickCounter()
+    {
+        $urls = Url::all();
+
+        return view('home/contador', compact('urls'));
+    }
 }

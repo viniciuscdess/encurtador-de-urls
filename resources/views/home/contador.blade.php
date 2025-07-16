@@ -14,14 +14,22 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td><a href="/abc1234" target="_blank">localhost/abc1234</a></td>
-                            <td class="text-end">42</td>
-                        </tr>
-                        <tr>
-                            <td><a href="/xyz5678" target="_blank">localhost/xyz5678</a></td>
-                            <td class="text-end">17</td>
-                        </tr>
+                        @if(isset($urls) && count($urls) > 0)
+                            @foreach($urls as $url)
+                            <tr>
+                                <td>
+                                    <a href="{{ url('/' . $url->url_modify) }}" target="_blank">
+                                        {{ url('/' . $url->url_modify) }}
+                                    </a>
+                                </td>
+                                <td class="text-end">{{ $url->redirects }}</td>
+                            </tr>
+                            @endforeach
+                        @else
+                            <tr>
+                                <td colspan="2" class="text-center">Nenhuma URL encontrada.</td>
+                            </tr>
+                        @endif
                     </tbody>
                 </table>
             </div>
